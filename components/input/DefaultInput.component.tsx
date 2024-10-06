@@ -1,16 +1,14 @@
-
 import useBrandTheme from "@/hooks/uitlity/useBrandTheme";
-import React from "react";
+import React, { forwardRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 type DefaultInputType = TextInput["props"] & {
-  variant?: "border" | "contain";
+  variant?: "border" | "contain" | "disable";
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
- 
 };
 
-const DefaultInput = (props: DefaultInputType) => {
+const DefaultInput = forwardRef<TextInput, DefaultInputType>((props, ref) => {
   const {
     style,
     variant = "contain",
@@ -28,9 +26,9 @@ const DefaultInput = (props: DefaultInputType) => {
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
-      backgroundColor:theme.colors.surface,
-      borderRadius:8,
-      gap:10,
+      backgroundColor: theme.colors.surface,
+      borderRadius: 8,
+      gap: 10,
       paddingHorizontal: 10,
     },
     baseInputStyle: {
@@ -39,18 +37,18 @@ const DefaultInput = (props: DefaultInputType) => {
       color: theme.colors.textSecondary,
       fontSize: 16,
       flex: 1,
-       
-      // paddingVertical: 13,
       fontFamily: theme.fonts.regular,
-     borderColor:"none",
-    
     },
     border: {
-      borderColor: theme.colors.surface,
+      borderColor: theme.colors.gray,
       borderWidth: 1,
     },
     contain: {
-      backgroundColor:theme.colors.surface,
+      backgroundColor: theme.colors.surface,
+      borderRadius: 8,
+    },
+    disable: {
+      backgroundColor: theme.colors.gray,
       borderRadius: 8,
     },
   });
@@ -59,6 +57,7 @@ const DefaultInput = (props: DefaultInputType) => {
     <View style={[styles.DefaultInputContainer, styles[variant], style]}>
       {leftIcon && leftIcon}
       <TextInput
+        ref={ref}  // Pass the ref here
         {...rest}
         style={[styles.baseInputStyle]}
         placeholderTextColor={theme.colors.textSecondary}
@@ -66,6 +65,6 @@ const DefaultInput = (props: DefaultInputType) => {
       {rightIcon && rightIcon}
     </View>
   );
-};
+});
 
 export default DefaultInput;

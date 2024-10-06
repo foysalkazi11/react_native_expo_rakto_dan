@@ -1,5 +1,5 @@
 import useBrandTheme from "@/hooks/uitlity/useBrandTheme";
-import { Country } from "@/types/country";
+
 import React, { useMemo, useState } from "react";
 import {
   Modal,
@@ -13,37 +13,46 @@ import DefaultInput from "../input/DefaultInput.component";
 import DefaultText from "../typography/DefaultText";
 import DefaultModal from "./DefaultModal.component";
 
+export type TAddressPickerData = {
+    label:string;
+    value: string;
+    searchBy:string;
+     [key:string]:any;
+}
+// const countryCodeData: {
+//   countries: Country[];
+// } = require("../../constants/countryCode.json");
 
-const countryCodeData: {
-  countries: Country[];
-} = require("../../constants/countryCode.json");
-
-const CountryPickerModal: React.FC<{
-  onSelectCountry: (country: Country) => void;
+const AddressPickerModal: React.FC<{
+  data:TAddressPickerData[]
+  onSelect: (value: TAddressPickerData) => void;
   visible: boolean;
   onClose?: () => void;
   onRequestClose?: () => void;
-}> = ({ onSelectCountry, visible, onRequestClose = () => {},onClose = () => {} }) => {
+  searchInputPlaceholder?:string
+}> = ({ data=[],onSelect, visible, onRequestClose = () => {},onClose = () => {},searchInputPlaceholder= "Search" }) => {
   const { theme } = useBrandTheme();
   const [searchInput, setSearchInput] = useState("");
-  const inputRef = React.useRef<TextInput>(null)
-  const handleCountrySelection = (country: Country) => {
-    onSelectCountry(country);
+    const inputRef = React.useRef<TextInput>(null)
+  const handleCountrySelection = (value: TAddressPickerData) => {
+    onSelect(value);
     setSearchInput("");
   };
 
   const filteredCountryCodeData = useMemo(() => {
-    return countryCodeData.countries.filter((item) => {
-      const itemName = item.name.toLowerCase();
+    if(!searchInput) return data; 
+    return data.filter((item) => {
+        const searchBy = item.searchBy
+      const itemSearchBy = item[searchBy].toLowerCase();
 
-      const itemCode = item.phone.toLowerCase();
+      const itemSearchByValue = item.value.toLowerCase();
 
       const textData = searchInput.toLowerCase();
 
-      if (itemName.indexOf(textData) > -1 || itemCode.indexOf(textData) > -1)
+      if (itemSearchBy.indexOf(textData) > -1 || itemSearchByValue.indexOf(textData) > -1)
         return true;
     });
-  }, [searchInput]);
+  }, [searchInput,data]);
 
   const styles = StyleSheet.create({
     modalContainer: {
@@ -64,7 +73,7 @@ const CountryPickerModal: React.FC<{
       top: 10,
       right: 10,
       padding: 10,
-      backgroundColor: theme.colors.textSecondary,
+      backgroundColor: theme.colors.gray,
       borderRadius: 5,
     },
     closeText: {
@@ -79,6 +88,7 @@ const CountryPickerModal: React.FC<{
       display: "flex",
       flexDirection: "row",
       gap: 10,
+      // backgroundColor:theme.colors.primaryLight
     },
     countryText: {
       fontSize: 16,
@@ -105,7 +115,7 @@ const CountryPickerModal: React.FC<{
         <DefaultInput
           value={searchInput}
           onChangeText={setSearchInput}
-          placeholder="Search by counter or code"
+          placeholder={searchInputPlaceholder}
           ref={inputRef}
           // variant="contain"
           // style={{ height: 38, paddingHorizontal: 10 }}
@@ -115,22 +125,22 @@ const CountryPickerModal: React.FC<{
           data={filteredCountryCodeData}
           renderItem={({ item }) => (
             <TouchableOpacity
-              key={item.phone}
+              key={item.label}
               onPress={() => handleCountrySelection(item)}
               style={styles.countryItem}
             >
-              <DefaultText type="paragraph">{item.emoji}</DefaultText>
+              {/* <DefaultText type="paragraph">{item.emoji}</DefaultText>
               <DefaultText
                 type="paragraph"
                 style={{ color: theme.colors.textSecondary }}
               >
                 {item.phone}
-              </DefaultText>
+              </DefaultText> */}
               <DefaultText
                 type="paragraph"
                 style={{ color: theme.colors.textSecondary }}
               >
-                {item.name}
+                {item.label}
               </DefaultText>
             </TouchableOpacity>
           )}
@@ -140,4 +150,4 @@ const CountryPickerModal: React.FC<{
   );
 };
 
-export default CountryPickerModal;
+export default AddressPickerModal;

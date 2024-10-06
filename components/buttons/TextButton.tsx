@@ -2,12 +2,12 @@
 import useBrandTheme from "@/hooks/uitlity/useBrandTheme";
 import { Link } from "expo-router";
 import React from "react";
-import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
+import { Pressable, PressableProps, StyleSheet, Text, TextProps } from "react-native";
 
 type TextButtonProps = PressableProps & {
   label: string;
   isLink?: boolean;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg" ;
   variant?: "primary";
 } & {
   isLink?: true;
@@ -29,13 +29,13 @@ const TextButton = (props: TextButtonProps) => {
   return <Button label={label} {...rest} />;
 };
 
-const Button = (
-  props: Omit<TextButtonProps, "isLink" | "href"> & { style?: any }
+export const Button = (
+  props: Omit<TextButtonProps, "isLink" | "href"> & { buttonLabelStyle?: TextProps["style"] }
 ) => {
   const {
     label,
-    size = "sm",
-    style = {},
+    size = "lg",
+    buttonLabelStyle = {},
     variant = "primary",
     ...rest
   } = props;
@@ -45,12 +45,13 @@ const Button = (
     primary: { color: theme.colors.primary },
     sm: { fontSize: 12 },
     md: { fontSize: 14 },
+    lg: { fontSize: 16 },
   });
 
   return (
     <Pressable {...rest}>
       <Text
-        style={[theme.typography.label, styles[size], styles[variant], style]}
+        style={[theme.typography.label, styles[size], styles[variant], buttonLabelStyle]}
       >
         {label}
       </Text>

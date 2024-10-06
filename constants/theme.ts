@@ -54,11 +54,11 @@ const dark = {
   ...light,
   colors: {
     primary: '#b71c1c',   // Darker red for dark mode
-    primaryLight: "#B84A5A",
+    primaryLight: "#F3B3C2",
     secondary: '#ef5350', // A vibrant red for accents
     background: '#121212', // Dark background
      surface: '#2A2A2A',       // Slightly lighter dark surface '#333333' '#1e1e1e',
-     gray: '#cccccc', //gray 
+     gray: '#444444', //gray 
     error: '#e57373',      // Softer red for errors
     textPrimary: '#ffffff', // White for primary text
     textSecondary: '#b3b3b3', // Light grey for secondary text

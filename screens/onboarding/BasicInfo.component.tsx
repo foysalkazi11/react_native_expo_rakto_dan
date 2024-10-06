@@ -1,41 +1,60 @@
-import { View, Text,StyleSheet, ImageBackground,Image, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Pressable } from 'react-native'
 import React from 'react'
-import DefaultPageView from '@/components/viewComponents/DefaultPageView'
-import DefaultBackgroundImage from '@/components/backgroundImage/DefaultBackgroundImage.component'
-import DefaultText from '@/components/typography/DefaultText'
-import DefaultImage from '@/components/image/DefaultImage.component'
 import DefaultView from '@/components/viewComponents/DefaultView'
-import DefaultScrollView from '@/components/viewComponents/DefaultScrollView'
 import DefaultSaveAreaView from '@/components/viewComponents/DefaultSaveAreaView'
 import Avatar from '@/components/avater/DefaultAvater.component'
 import useBrandTheme from '@/hooks/uitlity/useBrandTheme'
 import DefaultInput from '@/components/input/DefaultInput.component'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import DefaultButton from '@/components/buttons/DefaultButton'
 import PhoneNumberInput from '@/components/input/PhoneNumberInput'
 import ControlInputWrapper from '@/components/input/ControlInputWrapper.component'
 import { useForm } from 'react-hook-form';
+import DateTimePickerModal from '@/components/modal/DateTimePickerModal.component'
+import DefaultScrollView from '@/components/viewComponents/DefaultScrollView'
+import DefaultPageView from '@/components/viewComponents/DefaultPageView'
 
 const mobileNumberRegex = /^[0-9]{10}$/
 
 const defaultValues = {
   fullName: '',
-  dob: '',
+  dob: "",
   mobileNumber: '',
   password:"",
   confirmPassword: "",
 }
 
-export default function BasicInfo() {
-   const { control, handleSubmit, watch, formState: { errors } } = useForm({defaultValues});
+type BasicInfoProps = {
+  updateProgressStep?: (activeState: number) => void
+}
+
+export default function BasicInfo({updateProgressStep=()=>{}}:BasicInfoProps) {
+   const { control, handleSubmit, watch,setValue, formState: { errors, } } = useForm({defaultValues});
   const {theme} = useBrandTheme()
   const [countryCode, setCountryCode] = React.useState<string>("+880"); 
   const password = watch('password');
-  const onSubmit = (data:typeof defaultValues) =>{
+   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
 
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date:Date) => {
+    //  console.warn("A date has been picked: ", date.toLocaleDateString());
+    const sliceDate = date.toLocaleDateString().slice(0,10)
+    setValue("dob", sliceDate);
+    hideDatePicker();
+  };
+
+  const onSubmit = (data:typeof defaultValues) =>{
     console.log(data)
+    updateProgressStep(1)
   }
+
   const styles = StyleSheet.create({
      container: {
     flex: 1,
@@ -63,9 +82,9 @@ export default function BasicInfo() {
   }
 
   })
+
   return (
-    <DefaultSaveAreaView>
-       <DefaultView style={styles.container}>
+    <DefaultView style={styles.container}>
         <Avatar size={120} />
         <DefaultView style={styles.inputContainer}>
           <ControlInputWrapper control={control} name='fullName' rules={{required:"Full name required",}} >
@@ -87,7 +106,25 @@ export default function BasicInfo() {
             
           }} />
           {/* <DefaultInput  placeholder='Mobile Number' leftIcon={<MaterialCommunityIcons name="phone-in-talk" size={20} color={theme.colors.textSecondary} />}  /> */}
-          <DefaultInput  placeholder='Date of Birth'   leftIcon={<FontAwesome6 name="calendar-days" size={20} color={theme.colors.textSecondary} />}  />
+          <DateTimePickerModal 
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+          date={new Date()}
+          isDarkModeEnabled={true}
+          maximumDate={new Date()}
+          >
+             <Pressable onPress={showDatePicker}>
+              <ControlInputWrapper
+             control={control} 
+              name='dob' 
+             >
+              <DefaultInput onPress={showDatePicker} editable={false}  placeholder='Date of Birth'   leftIcon={<FontAwesome6 name="calendar-days" size={20} color={theme.colors.textSecondary} />}  />
+             </ControlInputWrapper>
+             </Pressable>
+          </DateTimePickerModal>
+         
           <ControlInputWrapper 
           control={control} 
           name='password' 
@@ -113,8 +150,9 @@ export default function BasicInfo() {
           <DefaultButton onPress={handleSubmit(onSubmit)} label="Next"  style={styles.button}  />
 
         </DefaultView>
-      </DefaultView>
-    </DefaultSaveAreaView>
+   
+       
+    </DefaultView>
      
   
   

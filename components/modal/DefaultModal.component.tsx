@@ -1,4 +1,4 @@
-import { Modal, Platform, StyleSheet, Text, View } from 'react-native'
+import { Modal, Platform, StyleSheet} from 'react-native'
 import React from 'react'
 import DefaultView from '../viewComponents/DefaultView'
 import useBrandTheme from '@/hooks/uitlity/useBrandTheme'
@@ -43,6 +43,7 @@ export default function DefaultModal({title="",onClose=()=>{}, children, ...rest
     transparent
       animationType="slide"
       style={[style]}
+      onRequestClose={()=>onClose()}
     >
         <DefaultView style={[styles.modalHeaderContainer]}>
             <DefaultText type="h4">{title} </DefaultText>

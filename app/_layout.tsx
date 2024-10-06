@@ -24,8 +24,9 @@ import {
 } from '@expo-google-fonts/poppins';
 import { StyleSheet, View,Text } from "react-native";
 import useBrandTheme from '@/hooks/uitlity/useBrandTheme';
-import { Slot } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
+import { Slot, Stack,Navigator } from 'expo-router';
+import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
+import AuthLayout from './auth/_layout';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -59,11 +60,15 @@ export default function RootLayout({children}:{children:React.ReactNode}) {
     }
   }, [loaded, error]);
 
+  //   useEffect(() => {
+  //   setTimeout(() => {
+  //     setStatusBarStyle("light");
+  //   }, 0);
+  // }, []);
+
   if (!loaded && !error) {
     return null;
   }
-
- 
 
     const styles = StyleSheet.create({
   container: {
@@ -79,11 +84,10 @@ export default function RootLayout({children}:{children:React.ReactNode}) {
 
   return (
  
-    <View style={styles.container}>
-      {/* <StatusBar   /> */}
+    < >
+      {/* <StatusBar translucent  /> */}
       <Slot />
-
-    </View>
+    </>
     
   )
 }

@@ -1,14 +1,12 @@
-// app/index.tsx
-
-
 import { Link } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Welcome() {
+export default function ForgetPassword() {
   return (
     <View style={styles.container}>
-      <Text>Welcome Page</Text>
-       <Link href="/auth">Sign In</Link>
+      <Text>ForgetPassword</Text>
+       <Link href="/auth">Back</Link>
+      <Link href="/auth/newPassword">New Password</Link>
     </View>
   );
 }
