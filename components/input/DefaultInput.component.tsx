@@ -1,5 +1,5 @@
 import useBrandTheme from "@/hooks/uitlity/useBrandTheme";
-import React, { forwardRef } from "react";
+import React, { ForwardedRef, forwardRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 type DefaultInputType = TextInput["props"] & {
@@ -17,6 +17,7 @@ const DefaultInput = forwardRef<TextInput, DefaultInputType>((props, ref) => {
     ...rest
   } = props;
   const { theme } = useBrandTheme();
+ 
 
   const styles = StyleSheet.create({
     DefaultInputContainer: {
@@ -57,7 +58,7 @@ const DefaultInput = forwardRef<TextInput, DefaultInputType>((props, ref) => {
     <View style={[styles.DefaultInputContainer, styles[variant], style]}>
       {leftIcon && leftIcon}
       <TextInput
-        ref={ref}  // Pass the ref here
+        ref={ref || undefined}  // Pass the ref here
         {...rest}
         style={[styles.baseInputStyle]}
         placeholderTextColor={theme.colors.textSecondary}

@@ -7,25 +7,28 @@ export default function AuthLayout() {
   const { theme } = useBrandTheme();
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+
              <Stack
         
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: theme.colors.surface,
-          },
-          headerTintColor: theme.colors.textPrimary,
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
+        // screenOptions={{
+        //   headerStyle: {
+        //     backgroundColor: theme.colors.primary,
+        //   },
+        //   headerTintColor: theme.colors.textOnPrimary,
+        //   headerTitleStyle: {
+        //     fontWeight: 'bold',
+            
+        //   },
+          
+        // }}
       >
-        <Stack.Screen  name="index" options={{ title: 'Sign In' }} />
-        <Stack.Screen name="forgetPassword" options={{ title: 'Forget Password' }} />
-        <Stack.Screen name="newPassword" options={{ title: 'New Password' }} />
+        <Stack.Screen  name="index" options={{ title: 'Sign In',headerShown:false }} />
+        <Stack.Screen name="forgetPassword" options={{ title: 'Forget Password',headerShown:false }} />
+        <Stack.Screen name="newPassword" options={{ title: 'New Password',headerShown:false }} />
+        <Stack.Screen name="forgetPasswordOtpVerification" options={{ title: 'OTP Verification',headerShown:false }} />
       </Stack>
 
-    </View>
+ 
  
   
   );

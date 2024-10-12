@@ -1,6 +1,6 @@
 
 import useBrandTheme from "@/hooks/uitlity/useBrandTheme";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 import React from "react";
 import { Pressable, PressableProps, StyleSheet, Text, TextProps } from "react-native";
 
@@ -11,13 +11,13 @@ type TextButtonProps = PressableProps & {
   variant?: "primary";
 } & {
   isLink?: true;
-  href?: any;
+  href?: Href<string | object>;
 };
 
 const TextButton = (props: TextButtonProps) => {
   const { label, isLink, href, ...rest } = props;
 
-  if (isLink) {
+  if (isLink && href) {
     // If it's a link, use a different handling
     // You can handle the link behavior here
     return (
@@ -34,7 +34,7 @@ export const Button = (
 ) => {
   const {
     label,
-    size = "lg",
+    size = "md",
     buttonLabelStyle = {},
     variant = "primary",
     ...rest

@@ -32,12 +32,15 @@ import DefaultButton from "@/components/buttons/DefaultButton";
 // https://github.com/anday013/react-native-otp-entry?tab=readme-ov-file#readme
 
 type OTPVerificationProps = {
-  updateProgressStep?: (activeState: number) => void
+  // updateProgressStep?: (activeState: number) => void
+  codes?: string[] | undefined
+  setCodes?:React.Dispatch<React.SetStateAction<string[] | undefined>>
+  verifyCode?: (value: string | undefined) => void
 }
-export default function OTPVerification({updateProgressStep}: OTPVerificationProps) {
+export default function OTPVerification({verifyCode=()=>{},codes=Array(4).fill(""),setCodes=()=>{}}: OTPVerificationProps) {
     const {theme} = useBrandTheme()
 //   const { isLoaded, signUp } = useSignUp();
-  const [codes, setCodes] = useState<string[] | undefined>(Array(4).fill(""));
+  // const [codes, setCodes] = useState<string[] | undefined>(Array(4).fill(""));
   const refs: RefObject<TextInput>[] = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
@@ -74,11 +77,12 @@ export default function OTPVerification({updateProgressStep}: OTPVerificationPro
   async function verifyPhoneNumberAndProgress() {
     const fullCode = codes!.join("");
     try {
+      verifyCode(fullCode)
     //   await signUp?.attemptPhoneNumberVerification({ code: fullCode });
     } catch (err: unknown) {
       // handle the error 
     }
-    updateProgressStep?.(2);
+    // updateProgressStep?.(2);
 
     // router.replace("/profile/sign-up/phone-verified");
   }
@@ -91,7 +95,7 @@ export default function OTPVerification({updateProgressStep}: OTPVerificationPro
     justifyContent: "center",
     width: '100%',
      paddingHorizontal: 20,
-     marginTop:50,
+    //  marginTop:50,
    
     
   },
@@ -170,7 +174,7 @@ export default function OTPVerification({updateProgressStep}: OTPVerificationPro
        <DefaultView style={styles.inputContainer}>
       <OtpInput
           numberOfDigits={4}
-          focusColor="green"
+          // focusColor="green"
           focusStickBlinkingDuration={500}
           onTextChange={(text) => console.log(text)}
           onFilled={(text) => console.log(`OTP is ${text}`)}

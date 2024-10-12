@@ -106,7 +106,7 @@ export default function OnBoardingIndexPage(props:any) {
       case 0:
         return <BasicInfo updateProgressStep={updateProgressStep}  />
       case 1:
-        return <OTPVerification updateProgressStep={updateProgressStep} />
+        return <OTPVerification verifyCode={()=>updateProgressStep(2)} />
       case 2:
         return <Address updateProgressStep={updateProgressStep} />
       case 3:
