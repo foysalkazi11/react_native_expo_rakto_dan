@@ -27,6 +27,7 @@ import useBrandTheme from '@/hooks/uitlity/useBrandTheme';
 import { Slot, Stack,Navigator } from 'expo-router';
 import { StatusBar, setStatusBarStyle } from 'expo-status-bar';
 import AuthLayout from './auth/_layout';
+import AuthProvider from '@/contexts/AuthProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -84,10 +85,10 @@ export default function RootLayout({children}:{children:React.ReactNode}) {
 
   return (
  
-    < >
+    <AuthProvider>
       {/* <StatusBar translucent  /> */}
       <Slot />
-    </>
+    </AuthProvider>
     
   )
 }

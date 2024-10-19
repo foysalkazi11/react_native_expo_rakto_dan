@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import DefaultImage from '../image/DefaultImage.component'
+import DefaultImage, { DefaultImageProps } from '../image/DefaultImage.component'
 import DefaultText from '../typography/DefaultText'
 import DefaultPageView from './DefaultPageView'
 import DefaultView from './DefaultView'
@@ -8,11 +8,11 @@ import useBrandTheme from '@/hooks/uitlity/useBrandTheme'
 
 type DefaultPageContainerProps = {
     children: React.ReactNode,
-    // image?: { uri: string; width: number; height: number },
+     image?:DefaultImageProps,
   
 }
 
-const DefaultPageContainer = ({children}:DefaultPageContainerProps) => {
+const DefaultPageContainer = ({children,image}:DefaultPageContainerProps) => {
     const { theme } = useBrandTheme()
 
     const styles = StyleSheet.create({
@@ -29,7 +29,7 @@ const DefaultPageContainer = ({children}:DefaultPageContainerProps) => {
     position: "absolute",
     top: 0,
    width: '100%',
-    height: '100%',
+    height: "100%",
     zIndex: -1,
     objectFit:"cover",
    resizeMode: 'cover',
@@ -39,8 +39,8 @@ const DefaultPageContainer = ({children}:DefaultPageContainerProps) => {
   infoContainer:{
       flex:1,
     width:"100%",
-     height:"auto",
-      paddingTop:50,
+     height:"100%",
+       paddingTop:50,
       // position:"absolute",
       // top:120,
       // zIndex:1,
@@ -50,7 +50,7 @@ const DefaultPageContainer = ({children}:DefaultPageContainerProps) => {
 
   return (
     <DefaultPageView saveAreaViewProps={{style:styles.container}} >
-      <DefaultImage  style={styles.image} />
+      <DefaultImage  style={styles.image} {...image} />
       <DefaultView style={styles.infoContainer}>
         {children}
       </DefaultView>

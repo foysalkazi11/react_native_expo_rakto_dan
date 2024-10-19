@@ -1,7 +1,7 @@
 import { Image, } from 'react-native'
 import React from 'react'
 
-type DefaultImageProps = Image["props"]
+export type DefaultImageProps = Image["props"]
 
 const DefaultImage = (props:DefaultImageProps) => {
     const { source, ...rest } = props

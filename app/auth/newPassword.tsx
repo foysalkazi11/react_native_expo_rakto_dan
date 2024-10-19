@@ -11,7 +11,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {  StyleSheet } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link } from 'expo-router';
+import { Link,useRouter } from 'expo-router';
 
 const mobileNumberRegex = /^[0-9]{10}$/
 
@@ -24,9 +24,10 @@ export default function NewPassword() {
   const {theme} = useBrandTheme()
   const { control, handleSubmit, watch,setValue, formState: { errors } } = useForm({defaultValues});
     const password = watch('password');
+    const router = useRouter()
   const onSubmit = (data:typeof defaultValues) =>{
     console.log(data)
-    // router.push("/auth/forgetPasswordOtpVerification")
+     router.push("/home")
     
   }
   

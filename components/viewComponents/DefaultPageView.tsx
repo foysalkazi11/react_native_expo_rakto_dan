@@ -3,7 +3,6 @@ import DefaultSaveAreaView, { DefaultSaveAreaViewProps } from './DefaultSaveArea
 import DefaultScrollView, { DefaultScrollViewProps } from './DefaultScrollView'
 import DefaultView, { DefaultViewProps } from './DefaultView'
 import { StyleSheet } from 'react-native';
-import useBrandTheme from '@/hooks/uitlity/useBrandTheme';
 
 type DefaultPageViewProps = {
     children: React.ReactNode;

@@ -9,6 +9,7 @@ import DefaultPageContainer from '@/components/viewComponents/DefaultPageContain
 import DefaultView from '@/components/viewComponents/DefaultView';
 import useBrandTheme from '@/hooks/uitlity/useBrandTheme';
 import { FontAwesome6 } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { View, Text, StyleSheet } from 'react-native';
@@ -27,6 +28,7 @@ export default function SignIn() {
 
   const onSubmit = (data:typeof defaultValues) =>{
     console.log(data)
+    router.push("/home")
     
   }
   

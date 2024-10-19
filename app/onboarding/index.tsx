@@ -10,6 +10,7 @@ import OTPVerification from '@/screens/onboarding/OTPVerification.component'
 import Address from '@/screens/onboarding/Address.component'
 import PickBloodGroup from '@/screens/onboarding/PickBloodGroup.component'
 import DefaultText from '@/components/typography/DefaultText'
+import DefaultPageContainer from '@/components/viewComponents/DefaultPageContainer'
 
 function LogoTitle() {
   return (
@@ -60,40 +61,6 @@ export default function OnBoardingIndexPage(props:any) {
   // },[])
 
   const styles = StyleSheet.create({
-     container: {
-      flexGrow: 1,
-      display: "flex",
-    flexDirection: 'column',
-    width: '100%',
-    height: '100%',
-     position: 'relative',
-    backgroundColor:theme.colors.surface,
-      
-    
-  },
-  image: {
-    position: "absolute",
-    top: 0,
-   width: '100%',
-    height: '100%',
-    zIndex: -1,
-    objectFit:"cover",
-   resizeMode: 'cover',
- 
-   
-  },
-  
-
-  infoContainer:{
-     flex:1,
-    width:"100%",
-     height:"auto",
-      paddingTop:50,
-      // position:"absolute",
-      // top:120,
-      // zIndex:1,
-      
-  },
   pageTitle:{
     color:theme.colors.textOnPrimary,
     fontFamily:theme.fonts.medium,
@@ -126,15 +93,13 @@ export default function OnBoardingIndexPage(props:any) {
   // }, [navigation]);
 
   return (
-      <DefaultPageView saveAreaViewProps={{style:styles.container}} >
+      <DefaultPageContainer >
         
-      <DefaultImage  style={styles.image} />
-      <DefaultView style={styles.infoContainer}>
         <DefaultText type="subHeading1" style={styles.pageTitle} >{progressState.steps[progressState.activeStep]?.pageName}</DefaultText>
         <ProgressBar progressState={progressState.steps}  />
        {renderPage}
-      </DefaultView>
-    </DefaultPageView>
+   
+    </DefaultPageContainer>
   )
 }
 

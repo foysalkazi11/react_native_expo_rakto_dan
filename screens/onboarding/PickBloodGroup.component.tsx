@@ -5,12 +5,20 @@ import DefaultImage from '@/components/image/DefaultImage.component'
 import DefaultView from '@/components/viewComponents/DefaultView'
 import DefaultText from '@/components/typography/DefaultText'
 import DefaultButton from '@/components/buttons/DefaultButton'
+import { useRouter } from 'expo-router'
 
 type PickBloodGroupProps = {
   updateProgressStep?: (activeState: number) => void
 }
 export default function PickBloodGroup({}: PickBloodGroupProps) {
     const {theme} = useBrandTheme()
+    const router = useRouter()
+
+  const onSubmit = (bloodGroup:string) =>{
+    console.log(bloodGroup)
+    router.push("/home")
+
+  }
 
     const styles = StyleSheet.create({
      container: {
@@ -48,7 +56,7 @@ export default function PickBloodGroup({}: PickBloodGroupProps) {
     <DefaultView style={styles.container}>
        <DefaultImage   style={styles.addressImage} source={require('../../assets/images/blood_group.png')}  />
         <DefaultView style={styles.inputContainer}>
-        <BloodGroup />
+        <BloodGroup onSubmit={onSubmit} />
          
         </DefaultView>
     </DefaultView>
@@ -59,15 +67,17 @@ type TBGExtension = "+" | "-" ;
 const bloodGroupArr : TBloodGroup[] = ["A", "B", "O", "AB" ]
 const bloodGroupExtensionArr : TBGExtension[] = ["+", "-", ]
 
-const BloodGroup = () =>{
+type BloodGroupProps = {
+  onSubmit: (bloodGroup:string) => void
+}
+
+export const BloodGroup = ({onSubmit}:BloodGroupProps) =>{
 const [bloodGroup,setBloodGroup] = React.useState<TBloodGroup>("A")
 const [bGExtension,setBGExtension] = React.useState<TBGExtension>("+")
 
  const {theme} = useBrandTheme()
 
-   const onSubmit = () =>{
-    console.log("Submit")
-  }
+  
 
     const styles = StyleSheet.create({
      container: {
@@ -138,7 +148,7 @@ return (
           <Text style={{fontSize: 20}}>{bGExtension === "+"? "-" : "+" }</Text>
         </DefaultView> */}
 
-          <DefaultButton onPress={onSubmit} label="Finish"  style={styles.button}  />
+          <DefaultButton onPress={()=>onSubmit(bloodGroup+bGExtension)} label="Finish"  style={styles.button}  />
 
     </DefaultView>
 )
