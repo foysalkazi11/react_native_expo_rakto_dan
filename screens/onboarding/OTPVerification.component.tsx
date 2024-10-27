@@ -94,7 +94,7 @@ export default function OTPVerification({verifyCode=()=>{},codes=Array(4).fill("
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-     paddingHorizontal: 20,
+    //  paddingHorizontal: 20,
     //  marginTop:50,
    
     

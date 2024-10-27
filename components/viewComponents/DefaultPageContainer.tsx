@@ -37,10 +37,11 @@ const DefaultPageContainer = ({children,image}:DefaultPageContainerProps) => {
   },
   
   infoContainer:{
-      flex:1,
+    flex:1,
     width:"100%",
      height:"100%",
-       paddingTop:50,
+    paddingTop:40,
+    paddingHorizontal:20
       // position:"absolute",
       // top:120,
       // zIndex:1,

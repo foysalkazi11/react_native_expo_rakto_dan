@@ -9,10 +9,77 @@ import useBrandTheme from '@/hooks/uitlity/useBrandTheme';
 import { router } from 'expo-router';
 import React from 'react';
 import {  StyleSheet } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState, useCallback } from 'react';
+import {
+  useFonts,
+  Poppins_100Thin,
+  Poppins_100Thin_Italic,
+  Poppins_200ExtraLight,
+  Poppins_200ExtraLight_Italic,
+  Poppins_300Light,
+  Poppins_300Light_Italic,
+  Poppins_400Regular,
+  Poppins_400Regular_Italic,
+  Poppins_500Medium,
+  Poppins_500Medium_Italic,
+  Poppins_600SemiBold,
+  Poppins_600SemiBold_Italic,
+  Poppins_700Bold,
+  Poppins_700Bold_Italic,
+  Poppins_800ExtraBold,
+  Poppins_800ExtraBold_Italic,
+  Poppins_900Black,
+  Poppins_900Black_Italic,
+} from '@expo-google-fonts/poppins';
 
+SplashScreen.preventAutoHideAsync();
 export default function HowItWork() {
   const {theme} = useBrandTheme()
   const {userStatus} = useUser()
+  // Track if the app is ready
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  // Load fonts
+  const [fontsLoaded, fontsError] = useFonts({
+    Poppins_100Thin,
+    Poppins_100Thin_Italic,
+    Poppins_200ExtraLight,
+    Poppins_200ExtraLight_Italic,
+    Poppins_300Light,
+    Poppins_300Light_Italic,
+    Poppins_400Regular,
+    Poppins_400Regular_Italic,
+    Poppins_500Medium,
+    Poppins_500Medium_Italic,
+    Poppins_600SemiBold,
+    Poppins_600SemiBold_Italic,
+    Poppins_700Bold,
+    Poppins_700Bold_Italic,
+    Poppins_800ExtraBold,
+    Poppins_800ExtraBold_Italic,
+    Poppins_900Black,
+    Poppins_900Black_Italic,
+  });
+
+  // Check if the app is ready (fonts are loaded or there's an error)
+  const onAppReady = useCallback(async () => {
+    if (fontsLoaded || fontsError) {
+      await SplashScreen.hideAsync(); // Hide splash screen once app is ready
+      setIsAppReady(true); // Set app as ready
+    }
+  }, [fontsLoaded, fontsError]);
+
+  useEffect(() => {
+    onAppReady(); // Call the function to check when the app is ready
+  }, [onAppReady]);
+
+  // Show splash screen while the app is loading
+  if (!isAppReady) {
+    return null;
+       // You can return a custom loading screen here if needed
+    
+  }
  
 
   const onSubmit = () =>{
@@ -22,11 +89,11 @@ export default function HowItWork() {
   const styles = StyleSheet.create({
   container: {
    flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column', 
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
 
    logoImage :{
@@ -105,8 +172,8 @@ export default function HowItWork() {
   
 });
 
-if(userStatus === "authenticated") return router.push("/home")
- if(userStatus === "not_authenticated") return router.push("/auth")
+ if(userStatus === "authenticated") return router.push("/home")
+  if(userStatus === "not_authenticated") return router.push("/auth")
   return (
     <DefaultPageContainer>
        <DefaultView style={styles.container}>

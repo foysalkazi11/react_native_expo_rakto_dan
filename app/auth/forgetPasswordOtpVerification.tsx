@@ -28,7 +28,7 @@ export default function ForgetPasswordOtpVerification() {
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
 
    logoImage :{

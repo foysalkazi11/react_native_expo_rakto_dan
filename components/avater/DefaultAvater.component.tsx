@@ -10,10 +10,12 @@ import DefaultImage from '../image/DefaultImage.component';
 
 interface AvatarProps {
   size?: number;
+  currentImage?: string;
+  isUpload?: boolean;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ size = 100 }) => {
-  const [image, setImage] = useState<string | null>(null);
+const Avatar: React.FC<AvatarProps> = ({ size = 100,isUpload=false,currentImage="" }) => {
+  const [image, setImage] = useState<string | null>(currentImage || "");
   console.log({image});
   
    const pickImage = async () => {
@@ -129,12 +131,12 @@ const Avatar: React.FC<AvatarProps> = ({ size = 100 }) => {
           
         )}
 
-        <Pressable 
+        {isUpload && <Pressable 
           style={styles.iconContainer}
           onPress={pickImage}
           >
             <Ionicons name="camera-outline" size={20} color="black" />
-          </Pressable>
+          </Pressable>}
       
     </DefaultView>
   );

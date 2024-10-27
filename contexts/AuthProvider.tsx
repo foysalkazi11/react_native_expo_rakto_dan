@@ -3,8 +3,6 @@ import React, { createContext, useContext, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import {brandTheme} from '../constants/theme';
 
-
-
 type TAuthContext = {
     userStatus:"authenticated" | "not_authenticated" | "first_time_user" 
     toggleUserStatus: (status: TAuthContext["userStatus"]) => void
@@ -14,8 +12,6 @@ const AuthContext = createContext<TAuthContext >({
     userStatus:"first_time_user",
     toggleUserStatus: () => {}
 });
-
-
 
  const AuthProvider = ({ children }:{children:React.ReactNode}) => {
 //   const systemColorScheme = useColorScheme();
@@ -27,7 +23,7 @@ const AuthContext = createContext<TAuthContext >({
 //     setIsDarkMode(!isDarkMode);
 //   };
 
-  const [userStatus, setUserStatus] = useState<TAuthContext["userStatus"]>("first_time_user");
+  const [userStatus, setUserStatus] = useState<TAuthContext["userStatus"]>("not_authenticated");
 
   const toggleUserStatus = (status: TAuthContext["userStatus"]) => {
     setUserStatus(status);

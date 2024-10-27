@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import useBrandTheme from '@/hooks/uitlity/useBrandTheme'
 import DefaultImage from '@/components/image/DefaultImage.component'
@@ -27,7 +27,7 @@ export default function PickBloodGroup({}: PickBloodGroupProps) {
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     
   },
   inputContainer:{

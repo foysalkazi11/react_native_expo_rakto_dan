@@ -12,7 +12,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const mobileNumberRegex = /^[0-9]{10}$/
 
@@ -39,7 +39,7 @@ export default function SignIn() {
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
 
    logoImage :{
@@ -105,7 +105,7 @@ export default function SignIn() {
             
           }} />
 
-             <ControlInputWrapper 
+          <ControlInputWrapper 
           control={control} 
           name='password' 
           rules={{

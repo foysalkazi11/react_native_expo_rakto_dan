@@ -62,7 +62,7 @@ export default function BasicInfo({updateProgressStep=()=>{}}:BasicInfoProps) {
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     
   },
   inputContainer:{
@@ -85,7 +85,7 @@ export default function BasicInfo({updateProgressStep=()=>{}}:BasicInfoProps) {
 
   return (
     <DefaultView style={styles.container}>
-        <Avatar size={120} />
+        <Avatar size={120} isUpload={true} />
         <DefaultView style={styles.inputContainer}>
           <ControlInputWrapper control={control} name='fullName' rules={{required:"Full name required",}} >
            <DefaultInput placeholder='Full Name' leftIcon={<FontAwesome6 name="user-large" size={20} color={theme.colors.textSecondary}  /> }  />
