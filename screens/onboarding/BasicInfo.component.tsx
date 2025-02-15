@@ -1,4 +1,4 @@
-import { StyleSheet, Pressable } from 'react-native'
+import { StyleSheet, Pressable, KeyboardAvoidingView, ScrollView, Platform } from 'react-native'
 import React from 'react'
 import DefaultView from '@/components/viewComponents/DefaultView'
 import DefaultSaveAreaView from '@/components/viewComponents/DefaultSaveAreaView'
@@ -62,8 +62,7 @@ export default function BasicInfo({updateProgressStep=()=>{}}:BasicInfoProps) {
     alignItems: "center",
     justifyContent: "center",
     width: '100%',
-    // paddingHorizontal: 20,
-    
+    paddingBottom: 100,
   },
   inputContainer:{
     marginTop:30,
@@ -73,7 +72,7 @@ export default function BasicInfo({updateProgressStep=()=>{}}:BasicInfoProps) {
     backgroundColor:theme.colors.background,
     gap:15,
     borderRadius:10,
-    
+    paddingBottom: 50,
   },
 
   button:{
@@ -84,77 +83,84 @@ export default function BasicInfo({updateProgressStep=()=>{}}:BasicInfoProps) {
   })
 
   return (
-    <DefaultView style={styles.container}>
-        <Avatar size={120} isUpload={true} />
-        <DefaultView style={styles.inputContainer}>
-          <ControlInputWrapper control={control} name='fullName' rules={{required:"Full name required",}} >
-           <DefaultInput placeholder='Full Name' leftIcon={<FontAwesome6 name="user-large" size={20} color={theme.colors.textSecondary}  /> }  />
-          </ControlInputWrapper>
-         
-          <PhoneNumberInput countryCode={countryCode} setCountryCode={setCountryCode} phoneNumberProps={{
-            placeholder: 'Mobile Number',
-            keyboardType: 'phone-pad',
-            returnKeyType: 'done',
-            name:"mobileNumber",
-            control:control,
-            rules:{
-              required:"Mobile Number required",
-              pattern:{
-              value: mobileNumberRegex,
-              message: 'Please enter a valid mobile number',
-            }}
-            
-          }} />
-          {/* <DefaultInput  placeholder='Mobile Number' leftIcon={<MaterialCommunityIcons name="phone-in-talk" size={20} color={theme.colors.textSecondary} />}  /> */}
-          <DateTimePickerModal 
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-          date={new Date()}
-          isDarkModeEnabled={true}
-          maximumDate={new Date()}
-          >
-             <Pressable onPress={showDatePicker}>
-              <ControlInputWrapper
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+    >
+      <DefaultScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <DefaultView style={styles.container}>
+          <Avatar size={120} isUpload={true} />
+          <DefaultView style={styles.inputContainer}>
+            <ControlInputWrapper control={control} name='fullName' rules={{required:"Full name required",}} >
+             <DefaultInput placeholder='Full Name' leftIcon={<FontAwesome6 name="user-large" size={20} color={theme.colors.textSecondary}  /> }  />
+            </ControlInputWrapper>
+           
+            <PhoneNumberInput countryCode={countryCode} setCountryCode={setCountryCode} phoneNumberProps={{
+              placeholder: 'Mobile Number',
+              keyboardType: 'phone-pad',
+              returnKeyType: 'done',
+              name:"mobileNumber",
+              control:control,
+              rules:{
+                required:"Mobile Number required",
+                pattern:{
+                value: mobileNumberRegex,
+                message: 'Please enter a valid mobile number',
+              }}
+              
+            }} />
+            {/* <DefaultInput  placeholder='Mobile Number' leftIcon={<MaterialCommunityIcons name="phone-in-talk" size={20} color={theme.colors.textSecondary} />}  /> */}
+            <DateTimePickerModal 
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            date={new Date()}
+            isDarkModeEnabled={true}
+            maximumDate={new Date()}
+            >
+               <Pressable onPress={showDatePicker}>
+                <ControlInputWrapper
+               control={control} 
+                name='dob' 
+               >
+                <DefaultInput onPress={showDatePicker} editable={false}  placeholder='Date of Birth'   leftIcon={<FontAwesome6 name="calendar-days" size={20} color={theme.colors.textSecondary} />}  />
+               </ControlInputWrapper>
+               </Pressable>
+            </DateTimePickerModal>
+           
+            <ControlInputWrapper 
+            control={control} 
+            name='password' 
+            rules={{
+            required: 'Password is required',
+            minLength: {
+              value: 4,
+              message: 'Password must be at least 4 characters long',
+            },
+          }}>
+              <DefaultInput  placeholder='Password'  
+              // secureTextEntry={true} 
+              leftIcon={<FontAwesome6 name="lock" size={20} color={theme.colors.textSecondary} />}  />
+            </ControlInputWrapper>
+            <ControlInputWrapper
              control={control} 
-              name='dob' 
-             >
-              <DefaultInput onPress={showDatePicker} editable={false}  placeholder='Date of Birth'   leftIcon={<FontAwesome6 name="calendar-days" size={20} color={theme.colors.textSecondary} />}  />
-             </ControlInputWrapper>
-             </Pressable>
-          </DateTimePickerModal>
-         
-          <ControlInputWrapper 
-          control={control} 
-          name='password' 
-          rules={{
-          required: 'Password is required',
-          minLength: {
-            value: 4,
-            message: 'Password must be at least 4 characters long',
-          },
-        }}>
-            <DefaultInput  placeholder='Password'  secureTextEntry={true} leftIcon={<FontAwesome6 name="lock" size={20} color={theme.colors.textSecondary} />}  />
-          </ControlInputWrapper>
-          <ControlInputWrapper
-           control={control} 
-          name='confirmPassword' 
-          rules={{
-          required: 'Please confirm your password',
-          validate: (value: string) => value === password || 'Passwords do not match',
-        }}
-          >
-            <DefaultInput  placeholder='Confirm Password'  secureTextEntry={true} leftIcon={<FontAwesome6 name="lock" size={20} color={theme.colors.textSecondary} />}  />
-          </ControlInputWrapper>
-          <DefaultButton onPress={handleSubmit(onSubmit)} label="Next"  style={styles.button}  />
+            name='confirmPassword' 
+            rules={{
+            required: 'Please confirm your password',
+            validate: (value: string) => value === password || 'Passwords do not match',
+          }}
+            >
+              <DefaultInput  placeholder='Confirm Password'  
+              // secureTextEntry={true} 
+              leftIcon={<FontAwesome6 name="lock" size={20} color={theme.colors.textSecondary} />}  />
+            </ControlInputWrapper>
+            <DefaultButton onPress={handleSubmit(onSubmit)} label="Next"  style={styles.button}  />
 
+          </DefaultView>
         </DefaultView>
-   
-       
-    </DefaultView>
-     
-  
-  
+      </DefaultScrollView>
+    </KeyboardAvoidingView>
   )
 }

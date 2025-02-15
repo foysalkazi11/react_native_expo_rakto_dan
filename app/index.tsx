@@ -192,7 +192,7 @@ export default function HowItWork() {
           </DefaultView>
           </DefaultView>
       
-          <DefaultButton onPress={()=> router.push("/onboarding")} label="Next"  style={styles.button}  />
+          <DefaultButton onPress={()=> router.push("/onboarding")} label="Start"  style={styles.button}  />
       </DefaultView>
      
     </DefaultView>

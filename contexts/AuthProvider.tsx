@@ -23,7 +23,7 @@ const AuthContext = createContext<TAuthContext >({
 //     setIsDarkMode(!isDarkMode);
 //   };
 
-  const [userStatus, setUserStatus] = useState<TAuthContext["userStatus"]>("not_authenticated");
+  const [userStatus, setUserStatus] = useState<TAuthContext["userStatus"]>("first_time_user");
 
   const toggleUserStatus = (status: TAuthContext["userStatus"]) => {
     setUserStatus(status);

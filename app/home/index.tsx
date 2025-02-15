@@ -5,7 +5,7 @@ import DefaultPageView from '@/components/viewComponents/DefaultPageView';
 import DefaultView from '@/components/viewComponents/DefaultView';
 import useBrandTheme from '@/hooks/uitlity/useBrandTheme';
 import React from 'react';
-import {  FlatList, Image, Pressable, StyleSheet } from 'react-native';
+import {  FlatList, Image, Pressable, StyleSheet, Dimensions } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Avatar from '@/components/avater/DefaultAvater.component';
 import DefaultInput from '@/components/input/DefaultInput.component';
@@ -13,6 +13,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { fakeUsers } from '@/constants/fakeUser';
 import DefaultSaveAreaView from '@/components/viewComponents/DefaultSaveAreaView';
+import { useRouter } from 'expo-router';
 
 const bloodGroupsArr = ["All",'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -98,25 +99,21 @@ export default Home
 const UserCardContainer = () =>{
   
   const styles = StyleSheet.create({
-    container:{
-      width:"100%",
-      height:"auto",
-      padding:10,
-      display: "flex",
-      flexDirection: "row",
-      flexWrap: "wrap",
-      gap:10,
+    container: {
+      width: "100%",
+      flex: 1,
     },
   })
 
   return (
-    <DefaultSaveAreaView >
+    <DefaultSaveAreaView style={{flex: 1}}>
       <FlatList
        showsVerticalScrollIndicator={false}
         data={fakeUsers}
         keyExtractor={(user) => user.id.toString()}
         renderItem={({item}) => <UserCard user={item} />}
-        // style={styles.container}
+        style={styles.container}
+        contentContainerStyle={{paddingBottom: 20}}
       />
     </DefaultSaveAreaView>
   )
@@ -125,6 +122,7 @@ const UserCardContainer = () =>{
 
 
 const UserCard = ({user}:{user:typeof fakeUsers[number]}) => {
+  const router = useRouter();
   const {id,image,address,bloodGroup,mobileNumber,name} = user
   const {theme} = useBrandTheme()
   const styles = StyleSheet.create({
@@ -162,18 +160,22 @@ const UserCard = ({user}:{user:typeof fakeUsers[number]}) => {
     }
   })
   return (
-    <DefaultView style={styles.container}>
-      <DefaultImage   style={styles.userImage} source={{uri:image} || require('../../assets/images/user_placeholder.png')} />
-      <DefaultView style={styles.contentContainer}>
-        <DefaultView style={styles.nameBox}>
-          <DefaultText type="h4" style={{color:theme.colors.textPrimary}}>{name}</DefaultText>
-          <DefaultText type="h3" style={{color:theme.colors.primary}}>{bloodGroup}</DefaultText>
+    <Pressable onPress={() => router.push(`/home/details/${user.id}`)}>
+      <DefaultView style={styles.container}>
+        <DefaultImage   style={styles.userImage} 
+          source={image ? {uri: image} : require('../../assets/images/user_placeholder.png')} 
+        />
+        <DefaultView style={styles.contentContainer}>
+          <DefaultView style={styles.nameBox}>
+            <DefaultText type="h4" style={{color:theme.colors.textPrimary}}>{name}</DefaultText>
+            <DefaultText type="h3" style={{color:theme.colors.primary}}>{bloodGroup}</DefaultText>
+          </DefaultView>
+          <DefaultText type="paragraph" style={{color:theme.colors.textSecondary}}>{address}</DefaultText>
+
         </DefaultView>
-        <DefaultText type="paragraph" style={{color:theme.colors.textSecondary}}>{address}</DefaultText>
 
       </DefaultView>
-
-    </DefaultView>
+    </Pressable>
   )
 }
 
